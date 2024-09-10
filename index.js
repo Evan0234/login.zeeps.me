@@ -35,7 +35,7 @@ function register() {
                         // Set login_token cookie for `.zeeps.me` (7 days)
                         document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
 
-                        // Redirect to dashboard
+                        // Redirect to the correct subdomain dashboard
                         window.location.href = 'https://dashboard.zeeps.me';
                     });
             })
@@ -67,6 +67,7 @@ function login() {
                     document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
 
                     alert('Login Successful!');
+                    // Redirect to the correct subdomain dashboard
                     window.location.href = 'https://dashboard.zeeps.me';
                 } else {
                     alert('Please verify your email before logging in.');
