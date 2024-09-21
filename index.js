@@ -1,4 +1,4 @@
-// Firebase configuration
+// Your Firebase config (assuming it's already initialized)
 var firebaseConfig = {
     apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
     authDomain: "zeeplogin.firebaseapp.com",
@@ -15,60 +15,71 @@ const auth = firebase.auth();
 
 // Register function
 function register() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    try {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-    if (!validate_email(email) || !validate_password(password)) {
-        alert('Invalid email or password!');
-        return;
-    }
+        if (!validate_email(email) || !validate_password(password)) {
+            throw new Error('Invalid email or password!');
+        }
 
-    auth.createUserWithEmailAndPassword(email, password)
-        .then(userCredential => {
-            const user = userCredential.user;
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
 
-            user.sendEmailVerification().then(() => {
-                alert('Verification Email Sent. Please verify your email.');
+                // Send verification email
+                return user.sendEmailVerification()
+                    .then(() => {
+                        alert('Verification Email Sent. Please verify your email.');
 
-                // Set login_token cookie for `.zeeps.me` (7 days)
-                document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
+                        // Set login_token cookie for .zeeps.me (7 days)
+                        document.cookie = login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me;
 
-                // Redirect to dashboard
-                window.location.href = 'https://dashboard.zeeps.me';
+                        // Redirect to the correct subdomain dashboard
+                        window.location.href = 'https://dashboard.zeeps.me';
+                    });
+            })
+            .catch(error => {
+                console.error('Error during registration:', error);
+                alert(error.message);
             });
-        })
-        .catch(error => {
-            alert(error.message);
-        });
+    } catch (error) {
+        console.error('Error in register function:', error.message);
+    }
 }
 
 // Login function
 function login() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    try {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-    if (!validate_email(email) || !validate_password(password)) {
-        alert('Invalid email or password!');
-        return;
+        if (!validate_email(email) || !validate_password(password)) {
+            throw new Error('Invalid email or password!');
+        }
+
+        auth.signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+
+                if (user.emailVerified) {
+                    // Set login_token cookie for .zeeps.me (7 days)
+                    document.cookie = login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me;
+
+                    alert('Login Successful!');
+                    // Redirect to the correct subdomain dashboard
+                    window.location.href = 'https://dashboard.zeeps.me';
+                } else {
+                    alert('Please verify your email before logging in.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during login:', error);
+                alert(error.message);
+            });
+    } catch (error) {
+        console.error('Error in login function:', error.message);
     }
-
-    auth.signInWithEmailAndPassword(email, password)
-        .then(userCredential => {
-            const user = userCredential.user;
-
-            if (user.emailVerified) {
-                // Set login_token cookie for `.zeeps.me` (7 days)
-                document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
-
-                alert('Login Successful!');
-                window.location.href = 'https://dashboard.zeeps.me';
-            } else {
-                alert('Please verify your email before logging in.');
-            }
-        })
-        .catch(error => {
-            alert(error.message);
-        });
 }
 
 // Validate email format
@@ -82,9 +93,7 @@ function validate_password(password) {
     return password.length >= 6;
 }
 
-// Redirect to dashboard if already logged in and authenticated
-firebase.auth().onAuthStateChanged((user) => {
-    if (user && document.cookie.includes('login_token')) {
-        window.location.href = 'https://dashboard.zeeps.me';
-    }
-});
+// Redirect to dashboard if already logged in
+if (document.cookie.includes('login_token')) {
+    window.location.href = 'https://dashboard.zeeps.me';
+}
