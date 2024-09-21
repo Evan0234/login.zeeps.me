@@ -1,50 +1,124 @@
+/* Set the body background */
 html, body {
     width: 100%;
     height: 100%;
-    background: -webkit-linear-gradient(25deg, #FFBE0B, #FB5607, #FF006E, #8338EC, #3A86FF);
-
+    margin: 0;
+    padding: 0;
+    background: #e0f7fa; /* Matching the background color from the code provided */
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: Arial, sans-serif;
 }
 
+/* Centering the content container */
 #content_container {
+    width: 35%;
+    height: 80%;
+}
+
+/* Form container styling */
+#form_container {
+    width: 100%;
+    height: 100%;
     background-color: #ffffff;
-    width: 400px;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #007bff;
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add sleek shadow */
+    overflow: hidden;
+}
+
+/* Header styling */
+#form_header_container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background: #007bff;
 }
 
 #form_header {
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 30px;
-    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Form content styling */
+#form_content_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+}
+
+#form_content_inner_container {
+    width: 80%;
 }
 
 input {
-    display: block;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+    height: 45px;
+    padding-left: 15px;
+    margin-bottom: 15px;
+    border: 2px solid #007bff;
+    border-radius: 25px; /* Rounded inputs */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sleek input shadow */
 }
 
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
+input:focus {
+    outline: none;
+    border-color: #0056b3;
+}
+
+/* Sleek, circular button styles */
+#button_container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#button_container button {
+    width: 30%;
+    height: 50px;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 25px; /* Circular button shape */
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#button_container button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.5);
+}
+
+/* Styling for the "Forgot Password" button */
+#reset_button_container {
+    text-align: right;
+}
+
+#reset_button_container button {
+    background-color: #ff4081;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: bold;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
+#reset_button_container button:hover {
+    background-color: #ff007f;
 }
