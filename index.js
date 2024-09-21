@@ -31,9 +31,7 @@ function register() {
                 return user.sendEmailVerification()
                     .then(() => {
                         alert('Verification Email Sent. Please verify your email before logging in.');
-                        
-                        // Logout the user after registration to prevent auto-login
-                        auth.signOut();
+                        // No automatic login after registration
                     });
             })
             .catch(error => {
@@ -68,7 +66,7 @@ function login() {
                     window.location.href = 'https://dashboard.zeeps.me';
                 } else {
                     alert('Please verify your email before logging in.');
-                    // Optionally sign out if the user somehow gets logged in without verification
+                    // Sign out the user if email is not verified
                     auth.signOut();
                 }
             })
@@ -92,12 +90,15 @@ function validate_password(password) {
     return password.length >= 6;
 }
 
-// Redirect to dashboard if already logged in (only if email is verified)
+// Redirect to dashboard if already logged in
 auth.onAuthStateChanged(user => {
-    if (user && user.emailVerified) {
-        document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
-        window.location.href = 'https://dashboard.zeeps.me';
-    } else {
-        auth.signOut(); // Force sign out if email is not verified
+    if (user) {
+        if (user.emailVerified) {
+            document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
+            window.location.href = 'https://dashboard.zeeps.me';
+        } else {
+            // If email is not verified, sign them out
+            auth.signOut();
+        }
     }
 });
