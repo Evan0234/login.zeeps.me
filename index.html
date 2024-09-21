@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Zeeps</title>
-
+    <meta charset="utf-8">
+    <title>Login + Firebase Firestore</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
@@ -17,12 +15,13 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 </head>
 <body>
     <div id="content_container">
         <div id="form_container">
             <div id="form_header_container">
-                <h2 id="form_header">Login/Register</h2>
+                <h2 id="form_header"> Login/Register </h2>
             </div>
 
             <div id="form_content_container">
@@ -31,9 +30,9 @@
                     <input type="password" id="password" placeholder="Password">
 
                     <div id="button_container">
-                        <button onclick="login()" class="styled-button">Login</button>
-                        <button onclick="register()" class="styled-button">Register</button>
-                        <button onclick="window.location.href='https://zeeps.me/forgot'" class="styled-button">Forgot Password</button>
+                        <button onclick="login()">Login</button>
+                        <button onclick="register()">Register</button>
+                        <button onclick="window.location.href='https://zeeps.me/forgot'">Forgot Password</button>
                     </div>
                 </div>
             </div>
