@@ -30,13 +30,10 @@ function register() {
                 // Send verification email
                 return user.sendEmailVerification()
                     .then(() => {
-                        alert('Verification Email Sent. Please verify your email.');
-
-                        // Set login_token cookie for .zeeps.me (7 days)
-                        document.cookie = login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me;
-
-                        // Redirect to the correct subdomain dashboard
-                        window.location.href = 'https://dashboard.zeeps.me';
+                        alert('Verification Email Sent. Please verify your email before logging in.');
+                        
+                        // Logout the user after registration to prevent auto-login
+                        auth.signOut();
                     });
             })
             .catch(error => {
@@ -64,13 +61,15 @@ function login() {
 
                 if (user.emailVerified) {
                     // Set login_token cookie for .zeeps.me (7 days)
-                    document.cookie = login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me;
+                    document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
 
                     alert('Login Successful!');
                     // Redirect to the correct subdomain dashboard
                     window.location.href = 'https://dashboard.zeeps.me';
                 } else {
                     alert('Please verify your email before logging in.');
+                    // Optionally sign out if the user somehow gets logged in without verification
+                    auth.signOut();
                 }
             })
             .catch(error => {
@@ -93,7 +92,12 @@ function validate_password(password) {
     return password.length >= 6;
 }
 
-// Redirect to dashboard if already logged in
-if (document.cookie.includes('login_token')) {
-    window.location.href = 'https://dashboard.zeeps.me';
-}
+// Redirect to dashboard if already logged in (only if email is verified)
+auth.onAuthStateChanged(user => {
+    if (user && user.emailVerified) {
+        document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
+        window.location.href = 'https://dashboard.zeeps.me';
+    } else {
+        auth.signOut(); // Force sign out if email is not verified
+    }
+});
