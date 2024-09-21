@@ -1,124 +1,104 @@
-/* Set the body background */
+/* Background settings, matching your provided code */
 html, body {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
-    background: #e0f7fa; /* Matching the background color from the code provided */
+    background: #e0f7fa; /* Matching the color you provided */
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
 }
 
-/* Centering the content container */
-#content_container {
-    width: 35%;
-    height: 80%;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
 }
 
-/* Form container styling */
+/* Container styling */
+#content_container {
+    width: 30%;
+    height: 70%;
+}
+
 #form_container {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
     border: 2px solid #007bff;
-    border-radius: 20px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add sleek shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
     overflow: hidden;
+    padding: 20px;
 }
 
-/* Header styling */
 #form_header_container {
     width: 100%;
     height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
-    background: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #form_header {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-size: 24px;
+    font-family: 'Bowlby One SC', cursive;
+    color: #007bff;
 }
 
-/* Form content styling */
+/* Input styling */
+input {
+    width: 100%;
+    height: 50px;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 30px;
+    border: 1px solid #007bff;
+    font-size: 16px;
+}
+
+/* Button container */
+#button_container {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Sleek, circular button style */
+.styled-button {
+    width: 100px;
+    height: 50px;
+    background-color: #007bff;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px; /* Circular button shape */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.styled-button:hover {
+    background-color: #0056b3;
+}
+
+/* Inner form content styling */
 #form_content_container {
+    width: 100%;
+    height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 75%;
 }
 
 #form_content_inner_container {
-    width: 80%;
-}
-
-input {
-    width: 100%;
-    height: 45px;
-    padding-left: 15px;
-    margin-bottom: 15px;
-    border: 2px solid #007bff;
-    border-radius: 25px; /* Rounded inputs */
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #333;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sleek input shadow */
-}
-
-input:focus {
-    outline: none;
-    border-color: #0056b3;
-}
-
-/* Sleek, circular button styles */
-#button_container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-#button_container button {
-    width: 30%;
-    height: 50px;
-    background-color: #007bff;
-    color: #ffffff;
-    border-radius: 25px; /* Circular button shape */
-    border: none;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-#button_container button:hover {
-    background-color: #0056b3;
-    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.5);
-}
-
-/* Styling for the "Forgot Password" button */
-#reset_button_container {
-    text-align: right;
-}
-
-#reset_button_container button {
-    background-color: #ff4081;
-    color: #ffffff;
-    padding: 10px 15px;
-    border-radius: 25px;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#reset_button_container button:hover {
-    background-color: #ff007f;
+    width: 75%;
+    height: 100%;
 }
