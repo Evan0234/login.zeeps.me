@@ -13,7 +13,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// Register function
+// Register function (email/password)
 function register() {
     try {
         const email = document.getElementById('email').value;
@@ -31,7 +31,6 @@ function register() {
                 return user.sendEmailVerification()
                     .then(() => {
                         alert('Verification Email Sent. Please verify your email before logging in.');
-                        // No automatic login after registration
                     });
             })
             .catch(error => {
@@ -43,7 +42,7 @@ function register() {
     }
 }
 
-// Login function
+// Login function (email/password)
 function login() {
     try {
         const email = document.getElementById('email').value;
@@ -58,15 +57,11 @@ function login() {
                 const user = userCredential.user;
 
                 if (user.emailVerified) {
-                    // Set login_token cookie for .zeeps.me (7 days)
                     document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
-
                     alert('Login Successful!');
-                    // Redirect to the correct subdomain dashboard
                     window.location.href = 'https://dashboard.zeeps.me';
                 } else {
                     alert('Please verify your email before logging in.');
-                    // Sign out the user if email is not verified
                     auth.signOut();
                 }
             })
@@ -97,8 +92,54 @@ auth.onAuthStateChanged(user => {
             document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
             window.location.href = 'https://dashboard.zeeps.me';
         } else {
-            // If email is not verified, sign them out
             auth.signOut();
         }
     }
 });
+
+// --- Phone Authentication (SMS Verification) ---
+
+// Send OTP (SMS)
+function sendOTP() {
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        size: 'invisible'
+    });
+
+    auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then(confirmationResult => {
+            window.confirmationResult = confirmationResult;
+            alert('OTP Sent to your phone number!');
+        })
+        .catch(error => {
+            console.error('Error during SMS sending:', error);
+            alert(error.message);
+        });
+}
+
+// Verify OTP
+function verifyOTP() {
+    const otp = document.getElementById('otp').value;
+
+    window.confirmationResult.confirm(otp)
+        .then(result => {
+            const user = result.user;
+            alert('Phone authentication successful!');
+            document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
+            window.location.href = 'https://dashboard.zeeps.me';
+        })
+        .catch(error => {
+            console.error('Error during OTP verification:', error);
+            alert(error.message);
+        });
+}
+
+// Initialize reCAPTCHA
+window.onload = function () {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible',
+        'callback': function(response) {
+            console.log("reCAPTCHA solved");
+        }
+    });
+};
