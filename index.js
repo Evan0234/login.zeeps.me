@@ -25,7 +25,7 @@ function login() {
                     alert('Please verify your email before logging in.');
                     return auth.signOut();
                 }
-                
+
                 // Assuming 'phoneVerified' is stored in Firebase Firestore
                 const userDoc = firebase.firestore().collection('users').doc(user.uid);
                 userDoc.get().then(docSnapshot => {
@@ -68,46 +68,6 @@ function register() {
         })
         .catch(error => {
             console.error('Error during registration:', error);
-            alert(error.message);
-        });
-}
-
-// Send OTP function
-function sendOTP() {
-    const phoneNumber = document.getElementById('phoneNumber').value;
-
-    const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-    auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-        .then(confirmationResult => {
-            window.confirmationResult = confirmationResult;
-            alert('OTP sent to your phone.');
-        })
-        .catch(error => {
-            console.error('Error sending OTP:', error);
-            alert(error.message);
-        });
-}
-
-// Verify OTP function
-function verifyOTP() {
-    const otp = document.getElementById('otp').value;
-
-    window.confirmationResult.confirm(otp)
-        .then(result => {
-            const user = result.user;
-
-            // Update Firestore to mark phone as verified
-            firebase.firestore().collection('users').doc(user.uid).update({
-                phoneVerified: true
-            }).then(() => {
-                alert('Phone verified successfully!');
-                window.location.href = 'https://dashboard.zeeps.me';
-            }).catch(error => {
-                console.error('Error updating phone verification status:', error);
-            });
-        })
-        .catch(error => {
-            console.error('Error during OTP verification:', error);
             alert(error.message);
         });
 }
