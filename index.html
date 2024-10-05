@@ -7,55 +7,33 @@
     <!-- Google reCAPTCHA v3 (Enterprise) -->
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lc-gVgqAAAAAOIfqdzW9Mc-y6jGxdpPSRGzsqEp"></script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
-    
-    <!-- Your CSS file -->
-    <link rel="stylesheet" type="text/css" href="index.css">
-    
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
     <div id="content_container">
         <div id="form_container">
-            <div id="form_header_container">
-                <h2 id="form_header">Login/Register</h2>
-            </div>
+            <h2 id="form_header">Login/Register</h2>
 
-            <div id="form_content_container">
-                <div id="form_content_inner_container">
-                    <input type="email" id="email" placeholder="Email">
-                    <input type="password" id="password" placeholder="Password">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <button onclick="register()">Register</button>
+            <button onclick="window.location.href='https://zeeps.me/forgot'">Forgot Password</button>
 
-                    <div id="button_container">
-                        <button onclick="login()">Login</button>
-                        <button onclick="register()">Register</button>
-                        <button onclick="window.location.href='https://zeeps.me/forgot'">Forgot Password</button>
-                    </div>
+            <input type="tel" id="phoneNumber" placeholder="Phone Number (+1234567890)">
+            <button onclick="sendOTP()">Send OTP</button>
+            <input type="text" id="otp" placeholder="Enter OTP">
+            <button onclick="verifyOTP()">Verify OTP</button>
 
-                    <br/>
-
-                    <!-- Phone Number Input for SMS Verification -->
-                    <input type="tel" id="phoneNumber" placeholder="Phone Number (+1234567890)">
-                    <button onclick="sendOTP()">Send OTP</button>
-
-                    <input type="text" id="otp" placeholder="Enter OTP">
-                    <button onclick="verifyOTP()">Verify OTP</button>
-
-                    <!-- Container for reCAPTCHA -->
-                    <div id="recaptcha-container"></div>
-                </div>
-            </div>
+            <div id="recaptcha-container"></div>
         </div>
     </div>
 
-    <!-- Your external JavaScript file -->
     <script src="index.js"></script>
 </body>
 </html>
