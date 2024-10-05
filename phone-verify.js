@@ -1,9 +1,9 @@
-// Firebase configuration (same as before)
+// Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
     authDomain: "zeeplogin.firebaseapp.com",
     projectId: "zeeplogin",
-    storageBucket: "zeeplogin",
+    storageBucket: "zeeplogin.appspot.com",
     messagingSenderId: "343221159933",
     appId: "1:343221159933:web:e6c3e1e7ec6161a48dfb94",
     measurementId: "G-DE7X1YKVGY"
@@ -11,10 +11,10 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
+// Send OTP function
 function sendOTP() {
     const phoneNumber = document.getElementById('phoneNumber').value;
 
-    // Use Firebase's RecaptchaVerifier
     const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
     auth.signInWithPhoneNumber(phoneNumber, appVerifier)
         .then(confirmationResult => {
@@ -27,13 +27,15 @@ function sendOTP() {
         });
 }
 
+// Verify OTP function
 function verifyOTP() {
     const otp = document.getElementById('otp').value;
+
     window.confirmationResult.confirm(otp)
         .then(result => {
             const user = result.user;
-            
-            // Mark phone as verified in Firestore
+
+            // Update Firestore to mark phone as verified
             firebase.firestore().collection('users').doc(user.uid).update({
                 phoneVerified: true
             }).then(() => {
