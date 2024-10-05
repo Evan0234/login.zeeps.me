@@ -102,19 +102,30 @@ auth.onAuthStateChanged(user => {
 // Send OTP (SMS)
 function sendOTP() {
     const phoneNumber = document.getElementById('phoneNumber').value;
-    const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-        size: 'invisible'
-    });
+    
+    // Get the reCAPTCHA token
+    grecaptcha.enterprise.ready(function () {
+        grecaptcha.enterprise.execute('6Lc-gVgqAAAAAOIfqdzW9Mc-y6jGxdpPSRGzsqEp', {action: 'submit'})
+        .then(function(token) {
+            // Pass reCAPTCHA token to Firebase RecaptchaVerifier
+            const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible',
+                'callback': (response) => {
+                    console.log('reCAPTCHA verified:', response);
+                }
+            });
 
-    auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-        .then(confirmationResult => {
-            window.confirmationResult = confirmationResult;
-            alert('OTP Sent to your phone number!');
-        })
-        .catch(error => {
-            console.error('Error during SMS sending:', error);
-            alert(error.message);
+            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then(confirmationResult => {
+                    window.confirmationResult = confirmationResult;
+                    alert('OTP Sent to your phone number!');
+                })
+                .catch(error => {
+                    console.error('Error during SMS sending:', error);
+                    alert(error.message);
+                });
         });
+    });
 }
 
 // Verify OTP
@@ -134,7 +145,7 @@ function verifyOTP() {
         });
 }
 
-// Initialize reCAPTCHA
+// Initialize reCAPTCHA when the page loads
 window.onload = function () {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
         'size': 'invisible',
