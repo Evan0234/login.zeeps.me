@@ -1,36 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Login + Firebase Firestore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Zeeps</title>
     
-    <!-- Google reCAPTCHA v3 (Enterprise) -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lc-gVgqAAAAAOIfqdzW9Mc-y6jGxdpPSRGzsqEp"></script>
-
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div id="content_container">
-        <div id="form_container">
-            <h2 id="form_header">Login/Register</h2>
-
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="login()">Login</button>
-            <button onclick="register()">Register</button>
-            <button onclick="window.location.href='https://zeeps.me/forgot'">Forgot Password</button>
-
-            <input type="tel" id="phoneNumber" placeholder="Phone Number (+1234567890)">
-            <button onclick="sendOTP()">Send OTP</button>
-            <input type="text" id="otp" placeholder="Enter OTP">
-            <button onclick="verifyOTP()">Verify OTP</button>
-
-            <div id="recaptcha-container"></div>
+    <div id="login-container">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        
+        <button id="login-button" onclick="login()">Login</button>
+        <button id="register-button" onclick="register()">Register</button>
+        <button id="forgot-password-button" onclick="window.location.href='https://zeeps.me/forgot'">Forgot Password?</button>
+        
+        <div id="redirect-container">
+            <p>Or</p>
+            <button id="phone-verify-button" onclick="window.location.href='https://login.zeeps.me/phone-verify'">Verify with Phone</button>
         </div>
     </div>
 
