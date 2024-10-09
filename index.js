@@ -1,3 +1,5 @@
+// index.js
+
 const firebaseConfig = {
   apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
   authDomain: "zeeplogin.firebaseapp.com",
