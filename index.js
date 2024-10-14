@@ -1,5 +1,3 @@
-// index.js
-
 const firebaseConfig = {
   apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
   authDomain: "zeeplogin.firebaseapp.com",
@@ -81,26 +79,13 @@ function login() {
     }
 }
 
-// Validate email format
+// Email validation
 function validate_email(email) {
-    const expression = /^[^@]+@\w+(\.\w+)+\w$/;
-    return expression.test(email);
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
 }
 
-// Validate password length
+// Password validation
 function validate_password(password) {
-    return password.length >= 6;
+    return password.length >= 6; // Minimum length of 6 characters
 }
-
-// Redirect to dashboard if already logged in
-auth.onAuthStateChanged(user => {
-    if (user) {
-        if (user.emailVerified) {
-            document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
-            window.location.href = 'https://dashboard.zeeps.me';
-        } else {
-            // If email is not verified, sign them out
-            auth.signOut();
-        }
-    }
-});
