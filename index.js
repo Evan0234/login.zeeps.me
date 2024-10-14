@@ -1,3 +1,4 @@
+// Your Firebase config (assuming it's already initialized)
 const firebaseConfig = {
   apiKey: "AIzaSyAjl5C7TvjmtxPc4_eno6vRMIVjciLiV04",
   authDomain: "zeeplogin.firebaseapp.com",
@@ -12,21 +13,6 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-
-// Check if user is already logged in
-auth.onAuthStateChanged(user => {
-    if (user) {
-        // Redirect to the dashboard if the user is already logged in
-        if (user.emailVerified) {
-            // Set login_token cookie for .zeeps.me (7 days)
-            document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
-            window.location.href = 'https://dashboard.zeeps.me'; // Redirect to dashboard
-        } else {
-            alert('Please verify your email before logging in.');
-            auth.signOut(); // Sign out user if email is not verified
-        }
-    }
-});
 
 // Register function
 function register() {
@@ -77,11 +63,12 @@ function login() {
                     document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
 
                     alert('Login Successful!');
-                    // Redirect to the dashboard after successful login
+                    // Redirect to the correct subdomain dashboard
                     window.location.href = 'https://dashboard.zeeps.me';
                 } else {
                     alert('Please verify your email before logging in.');
-                    auth.signOut(); // Sign out the user if email is not verified
+                    // Sign out the user if email is not verified
+                    auth.signOut();
                 }
             })
             .catch(error => {
@@ -93,13 +80,26 @@ function login() {
     }
 }
 
-// Email validation
+// Validate email format
 function validate_email(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
+    const expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    return expression.test(email);
 }
 
-// Password validation
+// Validate password length
 function validate_password(password) {
-    return password.length >= 6; // Minimum length of 6 characters
+    return password.length >= 6;
 }
+
+// Redirect to dashboard if already logged in
+auth.onAuthStateChanged(user => {
+    if (user) {
+        if (user.emailVerified) {
+            document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
+            window.location.href = 'https://dashboard.zeeps.me';
+        } else {
+            // If email is not verified, sign them out
+            auth.signOut();
+        }
+    }
+});
