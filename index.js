@@ -13,6 +13,21 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
+// Check if user is already logged in
+auth.onAuthStateChanged(user => {
+    if (user) {
+        // Redirect to the dashboard if the user is already logged in
+        if (user.emailVerified) {
+            // Set login_token cookie for .zeeps.me (7 days)
+            document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
+            window.location.href = 'https://dashboard.zeeps.me'; // Redirect to dashboard
+        } else {
+            alert('Please verify your email before logging in.');
+            auth.signOut(); // Sign out user if email is not verified
+        }
+    }
+});
+
 // Register function
 function register() {
     try {
@@ -62,12 +77,11 @@ function login() {
                     document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
 
                     alert('Login Successful!');
-                    // Redirect to the correct subdomain dashboard
+                    // Redirect to the dashboard after successful login
                     window.location.href = 'https://dashboard.zeeps.me';
                 } else {
                     alert('Please verify your email before logging in.');
-                    // Sign out the user if email is not verified
-                    auth.signOut();
+                    auth.signOut(); // Sign out the user if email is not verified
                 }
             })
             .catch(error => {
