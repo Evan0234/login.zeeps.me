@@ -55,9 +55,6 @@ function login() {
             const user = userCredential.user;
 
             if (user.emailVerified) {
-                // Set login_token cookie for .zeeps.me (7 days)
-                document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
-
                 alert('Login Successful!');
                 // Redirect to the correct subdomain dashboard
                 window.location.href = 'https://dashboard.zeeps.me';
@@ -88,7 +85,6 @@ function validate_password(password) {
 auth.onAuthStateChanged(user => {
     if (user) {
         if (user.emailVerified) {
-            document.cookie = `login_token=${user.uid}; max-age=${7 * 24 * 60 * 60}; path=/; domain=.zeeps.me`;
             window.location.href = 'https://dashboard.zeeps.me';
         } else {
             // If email is not verified, sign them out
